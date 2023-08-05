@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      :root {
+        --primary-color: #ec1f55;
+        --text-color: #333;
+      }
+
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: inherit;
+      }
+
+      body {
+        background-color: #f5f5f5;
+      }
+
+      html {
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .player {
+        position: relative;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .player .icon-pause {
+        display: none;
+      }
+
+      .player.playing .icon-pause {
+        display: inline-block;
+      }
+
+      .player.playing .icon-play {
+        display: none;
+      }
+
+      .dashboard {
+        background-image: url("data:image/jpeg;base64,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");
+        padding: 16px 16px 14px;
+        background-color: #fff;
+        position: fixed;
+        top: 0;
+        margin-top: 10px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 480px;
+        border-bottom: 1px solid #ebebeb;
+      }
+
+      /* HEADER */
+      header {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      header h4 {
+        color: var(--primary-color);
+        font-size: 12px;
+      }
+
+      header h2 {
+        color: var(--text-color);
+        font-size: 20px;
+      }
+
+      /* CD */
+      .cd {
+        display: flex;
+        margin: auto;
+        width: 200px;
+      }
+
+      .cd-thumb {
+        width: 100%;
+        padding-top: 100%;
+        border-radius: 50%;
+        background-color: #333;
+        background-size: cover;
+        margin: auto;
+      }
+
+      /* CONTROL */
+      .control {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 18px 0 8px 0;
+      }
+
+      .control .btn {
+        color: #666;
+        padding: 18px;
+        font-size: 18px;
+      }
+
+      .control .btn.active {
+        color: var(--primary-color);
+      }
+
+      .control .btn-toggle-play {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        font-size: 24px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-color);
+      }
+
+      .progress {
+        width: 100%;
+        -webkit-appearance: none;
+        height: 6px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: 0.2s;
+        transition: opacity 0.2s;
+      }
+
+      .progress::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12px;
+        height: 6px;
+        background-color: var(--primary-color);
+        cursor: pointer;
+      }
+
+      /* PLAYLIST */
+      .playlist {
+        margin-top: 408px;
+        padding: 12px;
+      }
+
+      .song {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        background-color: #fff;
+        padding: 8px 16px;
+        border-radius: 5px;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .song.active {
+        background-color: var(--primary-color);
+      }
+
+      .song:active {
+        opacity: 0.8;
+      }
+
+      .song.active .option,
+      .song.active .author,
+      .song.active .title {
+        color: #fff;
+      }
+
+      .song .thumb {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-size: cover;
+        margin: 0 8px;
+      }
+
+      .song .body {
+        flex: 1;
+        padding: 0 16px;
+      }
+
+      .song .title {
+        font-size: 18px;
+        color: var(--text-color);
+      }
+
+      .song .author {
+        font-size: 12px;
+        color: #999;
+      }
+
+      .song .option {
+        padding: 16px 8px;
+        color: #999;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body
+    background="https://antimatter.vn/wp-content/uploads/2022/03/hinh-nen-may-tinh-1080x1920-toi-gian.jpg"
+  >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music player</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+      integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <div class="player">
+      <!-- Dashboard -->
+      <div class="dashboard">
+        <!-- Header -->
+        <header>
+          <h4>Now playing:</h4>
+          <h2>String 57th & 9th</h2>
+        </header>
+
+        <!-- CD -->
+        <div class="cd">
+          <div
+            class="cd-thumb"
+            style="
+              background-image: url('https://i.ytimg.com/vi/jTLhQf5KJSc/maxresdefault.jpg');
+            "
+          ></div>
+        </div>
+
+        <!-- Control -->
+        <div class="control">
+          <div class="btn btn-repeat">
+            <i class="fas fa-redo"></i>
+          </div>
+          <div class="btn btn-prev">
+            <i class="fas fa-step-backward"></i>
+          </div>
+          <div class="btn btn-toggle-play">
+            <i class="fas fa-pause icon-pause"></i>
+            <i class="fas fa-play icon-play"></i>
+          </div>
+          <div class="btn btn-next">
+            <i class="fas fa-step-forward"></i>
+          </div>
+          <div class="btn btn-random">
+            <i class="fas fa-random"></i>
+          </div>
+        </div>
+
+        <input
+          id="progress"
+          class="progress"
+          type="range"
+          value="0"
+          step="1"
+          min="0"
+          max="100"
+        />
+
+        <audio id="audio" src=""></audio>
+      </div>
+
+      <!-- Playlist -->
+      <div class="playlist">
+        <!-- <div class="song">
+          <div
+            class="thumb"
+            style="
+              background-image: url('https://i.ytimg.com/vi/jTLhQf5KJSc/maxresdefault.jpg');
+            "
+          ></div>
+          <div class="body">
+            <h3 class="title">Music name</h3>
+            <p class="author">Singer</p>
+          </div>
+          <div class="option">
+            <i class="fas fa-ellipsis-h"></i>
+          </div>
+        </div>
+        <div class="song">
+          <div
+            class="thumb"
+            style="
+              background-image: url('https://i.ytimg.com/vi/jTLhQf5KJSc/maxresdefault.jpg');
+            "
+          ></div>
+          <div class="body">
+            <h3 class="title">Music name</h3>
+            <p class="author">Singer</p>
+          </div>
+          <div class="option">
+            <i class="fas fa-ellipsis-h"></i>
+          </div>
+        </div>
+        <div class="song">
+          <div
+            class="thumb"
+            style="
+              background-image: url('https://i.ytimg.com/vi/jTLhQf5KJSc/maxresdefault.jpg');
+            "
+          ></div>
+          <div class="body">
+            <h3 class="title">Music name</h3>
+            <p class="author">Singer</p>
+          </div>
+          <div class="option">
+            <i class="fas fa-ellipsis-h"></i>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- Design from: https://static.collectui.com/shots/3671744/musicloud-revolutionary-app-for-music-streaming-large -->
+    <script src="./main.js"></script>
+  </body>
+</html>
